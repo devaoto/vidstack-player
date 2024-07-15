@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        "media-brand": "rgb(var(--media-brand) / <alpha-value>)",
+        "media-focus": "rgb(var(--media-focus) / <alpha-value>)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,6 +19,20 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@vidstack/react/tailwind.cjs")({
+      prefix: "media",
+    }),
+    customVariants,
+  ],
 };
+
+function customVariants({ addVariant, matchVariant }: any) {
+  matchVariant("parent-data", (value: any) => `.parent[data-${value}] > &`);
+
+  addVariant("hocus", ["&:hover", "&:focus-visible"]);
+  addVariant("group-hocus", [".group:hover &", ".group:focus-visible &"]);
+}
+
 export default config;
