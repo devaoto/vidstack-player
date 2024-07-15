@@ -87,6 +87,14 @@ export function Player() {
     });
   }
 
+  if (opening?.interval && ending?.interval) {
+    skiptime.push({
+      startTime: opening.interval.endTime,
+      endTime: ending.interval.startTime,
+      text: "Alya Sometimes Hides Her Feelings In Russian",
+    });
+  }
+
   if (ending?.interval) {
     skiptime.push({
       startTime: ending.interval.startTime ?? 0,
@@ -133,19 +141,8 @@ export function Player() {
         const epStart = skiptime[2]?.startTime ?? 0;
         const epEnd = skiptime[2]?.endTime ?? 0;
 
-        const opButtonText = skiptime[0]?.text || "";
-        const edButtonText = skiptime[2]?.text || "";
-
-        setOpeningButton(
-          opButtonText === "Opening" &&
-            currentTime > opStart &&
-            currentTime < opEnd
-        );
-        setEndingButton(
-          edButtonText === "Ending" &&
-            currentTime > epStart &&
-            currentTime < epEnd
-        );
+        setOpeningButton(currentTime > opStart && currentTime < opEnd);
+        setEndingButton(currentTime > epStart && currentTime < epEnd);
       }
     });
   }, [skiptime]);
